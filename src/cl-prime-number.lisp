@@ -67,7 +67,6 @@
 (defun bundle-lists-by-max (&rest lists)
   (let ((cars (mapcar #'car lists))
 	(cdrs (mapcar #'cdr lists)))
-    (print cars)
     (if (every #'null cars)
 	nil
 	(cons (apply #'max-plus cars) (apply #'bundle-lists-by-max cdrs)))))
@@ -82,12 +81,3 @@
   (every #'zerop
 	 (apply #'bundle-lists-by-min
 		(mapcar #'factorize-in-prime nums))))
-
-(print (factorize-in-prime 4))
-(print (inverse-factorize-from-prime (factorize-in-prime 72)))
-(print (factorize-in-prime 100))
-(print (factorize-in-prime 151))
-(print (factorize-in-prime 171))
-
-(print (calc-gcd 24 12 150))
-
