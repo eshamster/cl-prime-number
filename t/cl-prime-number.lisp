@@ -8,7 +8,7 @@
 
 ;; NOTE: To run this test file, execute `(asdf:test-system :cl-prime-number)' in your Lisp.
 
-(plan 3)
+(plan 4)
 
 (subtest
     "Test the series of prime"
@@ -31,5 +31,14 @@
     (is (inverse-factorize-from-prime
 	 (factorize-in-prime x))
 	x)))
+
+(subtest
+    "Test calc-GCD (greatest common divisor)"
+  (is (calc-gcd 1) 1)
+  (is (calc-gcd 12) 12)
+  (is (calc-gcd 2 9) 1)
+  (is (calc-gcd 2 8) 2)
+  (is (calc-gcd 8 12) 4)
+  (is (calc-gcd 9 18 24) 3))
 
 (finalize)
