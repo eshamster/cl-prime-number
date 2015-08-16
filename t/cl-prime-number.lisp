@@ -8,7 +8,7 @@
 
 ;; NOTE: To run this test file, execute `(asdf:test-system :cl-prime-number)' in your Lisp.
 
-(plan 4)
+(plan 5)
 
 (subtest
     "Test the series of prime"
@@ -40,5 +40,14 @@
   (is (calc-gcd 2 8) 2)
   (is (calc-gcd 8 12) 4)
   (is (calc-gcd 9 18 24) 3))
+
+(subtest
+    "Test clac-LCM (latest common multiple)"
+  (is (calc-lcm 1) 1)
+  (is (calc-lcm 12) 12)
+  (is (calc-lcm 2 9) 18)
+  (is (calc-lcm 2 8) 8)
+  (is (calc-lcm 8 12) 24)
+  (is (calc-lcm 9 18 24) 72))
 
 (finalize)
