@@ -8,7 +8,7 @@
 (cl-annot:enable-annot-syntax)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (lexport-readtable))
+  (enable-series-processing-syntax))
 
 (defun check-series-mod (target a n)
   (cond ((< target 2) nil)
