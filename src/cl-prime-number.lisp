@@ -51,29 +51,36 @@
 @export
 (defun calc-GCD (&rest nums)
   (inverse-factorize-from-prime
-   (bundle-number-lists #'min
-    (mapcar #'factorize-in-prime nums))))
+   (bundle-lists #'min
+    (mapcar #'factorize-in-prime nums)
+    :stops-by-min t)))
 
 ; LCM = least common multiple
 @export
 (defun calc-LCM (&rest nums)
   (inverse-factorize-from-prime
-   (bundle-number-lists #'max
+   (bundle-lists #'max
     (mapcar #'factorize-in-prime nums))))
 
 @export
-(defun bundle-number-lists (fn-reduce lists)
-  (labels ((f (lst rest)
+(defun bundle-lists (fn-reduce lists
+		     &key (default-value 0) (stops-by-min nil))
+  (labels ((lastp (cars)
+	     (if stops-by-min
+		 (some #'null cars)
+		 (every #'null cars)))
+	   (f (lst rest)
 	     (let ((cars (mapcar #'car rest))
 		   (cdrs (mapcar #'cdr rest)))
-	       (if (every #'null cars)
+	       (if (lastp cars)
 		   lst
-		   (progn (nsubstitute 0 nil cars)
+		   (progn (nsubstitute default-value nil cars)
 			  (f (cons (apply fn-reduce cars) lst) cdrs))))))
     (reverse (f nil lists))))
 
 @export
 (defun coprimep (&rest nums)
   (every #'zerop
-	 (bundle-number-lists #'min
-	  (mapcar #'factorize-in-prime nums))))
+	 (bundle-lists #'min
+	  (mapcar #'factorize-in-prime nums)
+	  :stops-by-min t)))
