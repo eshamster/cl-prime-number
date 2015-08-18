@@ -72,11 +72,6 @@
 			  (f (cons (apply fn-reduce cars) lst) cdrs))))))
     (reverse (f nil lists))))
 
-(defun max-plus (&rest rest-lst)
-  (aif (remove-if #'null rest-lst)
-       (apply #'max it)
-       nil))
-
 @export
 (defun coprimep (&rest nums)
   (every #'zerop
