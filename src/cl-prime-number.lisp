@@ -2,6 +2,7 @@
 (defpackage cl-prime-number
   (:use :cl
 	:anaphora
+	:alexandria
 	:cl-lazy))
 (in-package :cl-prime-number)
 
@@ -25,16 +26,35 @@
 			      #'check-series-mod
 			      #<a[n] = 2, (+ (* n 2) 1)>))
 
+(defmacro factorize-in-prime-body (target &key (prime-series *prime-series*))
+  (with-gensyms (rest-prime-series
+		 factor
+		 rest-target
+		 rest
+		 count)
+    `(let ((,rest-prime-series ,prime-series)
+	   (,rest-target ,target))
+       (make-series nil #'(lambda (a n)
+			    (declare (ignore a n))
+			    (if (= ,rest-target 1)
+				nil
+				(let ((,factor (lcar ,rest-prime-series)))
+				  (multiple-value-bind (,rest ,count)
+				      (div-while-can ,rest-target ,factor)
+				    (setf ,rest-prime-series (lcdr ,rest-prime-series))
+				    (setf ,rest-target ,rest)
+				    ,count))))))))
+
 @export
 (defun factorize-in-prime (target &key (prime-series *prime-series*))
-  (if (eq target 1)
-      (return-from factorize-in-prime nil))
-  (let ((count 0)
-	(factor (lcar prime-series)))
-    (loop while (= (mod target factor) 0) do
-	 (setf target (/ target factor))
+  (factorize-in-prime-body target :prime-series prime-series))
+
+(defun div-while-can (target div)
+  (let ((count 0))
+    (loop while (= (mod target div) 0) do
+	 (setf target (/ target div))
 	 (incf count))
-    (cons count (factorize-in-prime target :prime-series (lcdr prime-series)))))
+    (values target count)))
 
 @export
 (defun inverse-factorize-from-prime (target &key (prime-series *prime-series*))

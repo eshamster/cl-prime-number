@@ -18,7 +18,8 @@
   :license ""
   :depends-on (:cl-annot
                :cl-lazy
-               :anaphora)
+               :anaphora
+	       :alexandria)
   :components ((:module "src"
                 :components
                 ((:file "cl-prime-number"))))

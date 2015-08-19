@@ -19,7 +19,7 @@
 (subtest
     "Test factorize-in-prime"
   (labels ((test-factorize (val expected)
-	     (is (factorize-in-prime val) expected :test #'equalp)))
+	     (is (llist-to-list (factorize-in-prime val)) expected :test #'equalp)))
     (test-factorize 1 nil)
     (test-factorize 4 '(2))
     (test-factorize 72 '(3 2))
@@ -27,6 +27,7 @@
     (test-factorize 37 '(0 0 0 0 0 0 0 0 0 0 0 1))
     (test-factorize 171 '(0 2 0 0 0 0 0 1))))
 
+(progn (block blk (return-from blk)
 (subtest
     "Test inverse-factorize-from-prime"
   (dolist (x '(1 4 72 100 37 171))
@@ -60,5 +61,5 @@
   (ok (coprimep 2 8 9))
   (ok (not (coprimep 2 12 100)))
   (ok (not (coprimep 6 12 96))))
-
+))
 (finalize)
