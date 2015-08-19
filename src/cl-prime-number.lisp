@@ -27,24 +27,22 @@
 			      #<a[n] = 2, (+ (* n 2) 1)>))
 
 (defmacro factorize-in-prime-body (target &key (prime-series *prime-series*))
-  (with-gensyms (rest-prime-series
-		 factor
+  (with-gensyms (factor
 		 rest-target
 		 rest
 		 count)
-    `(let ((,rest-prime-series ,prime-series)
-	   (,rest-target ,target))
-       (make-series nil #'(lambda (a n)
-			    (declare (ignore a n))
-			    (if (= ,rest-target 1)
-				nil
-				(let ((,factor (lcar ,rest-prime-series)))
-				  (multiple-value-bind (,rest ,count)
-				      (div-while-can ,rest-target ,factor)
-				    (setf ,rest-prime-series (lcdr ,rest-prime-series))
-				    (setf ,rest-target ,rest)
-				    ,count))))))))
+    `(let ((,rest-target ,target))
+       (concat-series 
+	#'(lambda (,factor)
+	    (if (= ,rest-target 1)
+		nil
+		(multiple-value-bind (,rest ,count)
+		    (div-while-can ,rest-target ,factor)
+		  (setf ,rest-target ,rest)
+		  ,count)))
+	,prime-series))))
 
+; CAUTION: When defined factorize-in-prime above its-body, it didn't work (tested in CCL)
 @export
 (defun factorize-in-prime (target &key (prime-series *prime-series*))
   (factorize-in-prime-body target :prime-series prime-series))
