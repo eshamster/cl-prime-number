@@ -18,12 +18,14 @@
 
 (subtest
     "Test factorize-in-prime"
-  (is (factorize-in-prime 1) nil)
-  (is (factorize-in-prime 4) '(2) :test #'equalp)
-  (is (factorize-in-prime 72) '(3 2) :test #'equalp)
-  (is (factorize-in-prime 100) '(2 0 2) :test #'equalp)
-  (is (factorize-in-prime 37) '(0 0 0 0 0 0 0 0 0 0 0 1) :test #'equal)
-  (is (factorize-in-prime 171) '(0 2 0 0 0 0 0 1) :test #'equalp))
+  (labels ((test-factorize (val expected)
+	     (is (factorize-in-prime val) expected :test #'equalp)))
+    (test-factorize 1 nil)
+    (test-factorize 4 '(2))
+    (test-factorize 72 '(3 2))
+    (test-factorize 100 '(2 0 2))
+    (test-factorize 37 '(0 0 0 0 0 0 0 0 0 0 0 1))
+    (test-factorize 171 '(0 2 0 0 0 0 0 1))))
 
 (subtest
     "Test inverse-factorize-from-prime"
