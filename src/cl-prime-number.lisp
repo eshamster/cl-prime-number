@@ -55,11 +55,11 @@
 @export
 (defun inverse-factorize-from-prime (target &key (prime-series *prime-series*))
   (labels ((f (result rest-target rest-prime-series)
-	     (if (null rest-target)
+	     (if (is-series-end rest-target)
 		 (return-from f result))
 	     (f (* result (expt (lcar rest-prime-series)
-				(car rest-target)))
-		(cdr rest-target)
+				(lcar rest-target)))
+		(lcdr rest-target)
 		(lcdr rest-prime-series))))
     (f 1 target prime-series)))
 

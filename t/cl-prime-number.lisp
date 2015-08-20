@@ -27,7 +27,6 @@
     (test-factorize 37 '(0 0 0 0 0 0 0 0 0 0 0 1))
     (test-factorize 171 '(0 2 0 0 0 0 0 1))))
 
-(progn (block blk (return-from blk)
 (subtest
     "Test inverse-factorize-from-prime"
   (dolist (x '(1 4 72 100 37 171))
@@ -35,6 +34,7 @@
 	 (factorize-in-prime x))
 	x)))
 
+(progn (block blk (return-from blk)
 (subtest
     "Test calc-GCD (greatest common divisor)"
   (is (calc-gcd 1) 1)
