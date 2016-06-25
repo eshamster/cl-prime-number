@@ -15,7 +15,7 @@
 (defsystem cl-prime-number
   :version "0.1"
   :author "eshamster"
-  :license ""
+  :license "MIT"
   :depends-on (:cl-annot
                :cl-lazy
                :anaphora)

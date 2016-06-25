@@ -10,7 +10,7 @@
 
 (defsystem cl-prime-number-test
   :author "eshamster"
-  :license ""
+  :license "MIT"
   :depends-on (:cl-prime-number
                :prove)
   :components ((:module "t"
